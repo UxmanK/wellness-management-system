@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: wellness_dev
+      POSTGRES_USER: wellness_user
+      POSTGRES_PASSWORD: wellness_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wellness_user -d wellness_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: ./api
+    ports:
+      - "3000:3000"
+    environment:
+      RAILS_ENV: development
+      DATABASE_URL: postgresql://wellness_user:wellness_password@postgres:5432/wellness_dev
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./api:/app
+      - api_bundle:/usr/local/bundle
+    command: >
+      sh -c "
+        bundle exec rails db:create db:migrate db:seed &&
+        bundle exec rails server -b 0.0.0.0 -p 3000
+      "
+
+  frontend:
+    build: ./wellness_ui
+    ports:
+      - "3001:3000"
+    depends_on:
+      - api
+    volumes:
+      - ./wellness_ui:/app
+      - /app/node_modules
+
+volumes:
+  postgres_data:
+  api_bundle:
