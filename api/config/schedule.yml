@@ -1,0 +1,5 @@
+sync_clients:
+  cron: "*/2 * * * *"   # every 2 minutes (e.g., 0, 2, 4, 6...)
+
+sync_appointments:
+  cron: "1-59/2 * * * *"  # every 2 minutes starting at 1 (1, 3, 5, 7...)

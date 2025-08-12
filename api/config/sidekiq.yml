@@ -1,0 +1,14 @@
+---
+:concurrency: <%= ENV.fetch("SIDEKIQ_CONCURRENCY", 5) %>
+:queues:
+  - [default, 1]
+  - [sync, 2]
+  - [mailers, 1]
+:max_retries: <%= ENV.fetch("SIDEKIQ_MAX_RETRIES", 3) %>
+:retry_interval: <%= ENV.fetch("SIDEKIQ_RETRY_INTERVAL", 60) %>
+:redis:
+  :url: <%= ENV['REDIS_URL'] || 'redis://localhost:6379/0' %>
+:logfile: log/sidekiq.log
+:loglevel: info
+:pidfile: tmp/pids/sidekiq.pid
+:environment: <%= ENV.fetch("RAILS_ENV", "development") %>
