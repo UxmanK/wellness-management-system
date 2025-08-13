@@ -37,13 +37,8 @@ module ExternalApi
     private
     
     def fetch_external_clients
-      # Simulate fetching from external API
-      # In production, this would be a real API call
+      # Fetch clients from external API
       make_request(:get, '/clients', { limit: 100, offset: 0 })
-    rescue ExternalApiError => e
-      # Fallback to mock data for demo purposes
-      Rails.logger.warn "External API failed, using mock data: #{e.message}"
-      generate_mock_clients
     end
     
     def sync_single_client(external_client)
@@ -71,40 +66,6 @@ module ExternalApi
       end
     end
     
-    def generate_mock_clients
-      # Generate mock data for demonstration
-      [
-        {
-          'id' => 'ext_001',
-          'name' => 'Alice Johnson',
-          'email' => 'alice.johnson@example.com',
-          'phone' => '555-0106'
-        },
-        {
-          'id' => 'ext_002',
-          'name' => 'Bob Wilson',
-          'email' => 'bob.wilson@example.com',
-          'phone' => '555-0107'
-        },
-        {
-          'id' => 'ext_003',
-          'name' => 'Carol Davis',
-          'email' => 'carol.davis@example.com',
-          'phone' => '555-0108'
-        },
-        {
-          'id' => 'ext_004',
-          'name' => 'David Miller',
-          'email' => 'david.miller@example.com',
-          'phone' => '555-0109'
-        },
-        {
-          'id' => 'ext_005',
-          'name' => 'Eva Garcia',
-          'email' => 'eva.garcia@example.com',
-          'phone' => '555-0110'
-        }
-      ]
-    end
+
   end
 end

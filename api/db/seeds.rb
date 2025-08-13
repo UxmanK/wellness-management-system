@@ -5,13 +5,15 @@ puts "Starting external API sync to populate database..."
 
 # Ensure we have the required environment variables
 unless ENV['MOCK_API_URL']
-  puts "Warning: MOCK_API_URL not set, using mock data fallback"
+  puts "Error: MOCK_API_URL not set. Please set this environment variable to continue."
+  exit 1
 else
   puts "Using external API: #{ENV['MOCK_API_URL']}"
 end
 
 unless ENV['MOCK_API_KEY']
-  puts "Warning: MOCK_API_KEY not set, using demo key"
+  puts "Error: MOCK_API_KEY not set. Please set this environment variable to continue."
+  exit 1
 else
   puts "API key configured: #{ENV['MOCK_API_KEY'][0..10]}..."
 end

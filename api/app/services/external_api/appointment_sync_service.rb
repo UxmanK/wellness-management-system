@@ -37,13 +37,8 @@ module ExternalApi
     private
     
     def fetch_external_appointments
-      # Simulate fetching from external API
-      # In production, this would be a real API call
+      # Fetch appointments from external API
       make_request(:get, '/appointments', { limit: 100, offset: 0 })
-    rescue ExternalApiError => e
-      # Fallback to mock data for demo purposes
-      Rails.logger.warn "External API failed, using mock data: #{e.message}"
-      generate_mock_appointments
     end
     
     def sync_single_appointment(external_appointment)
@@ -114,46 +109,6 @@ module ExternalApi
       end
     end
     
-    def generate_mock_appointments
-      # Generate mock data for demonstration
-      [
-        {
-          'id' => 'apt_001',
-          'client' => {
-            'id' => 'ext_006',
-            'name' => 'Frank Brown',
-            'email' => 'frank.brown@example.com',
-            'phone' => '555-0111'
-          },
-          'scheduled_at' => 1.day.from_now.iso8601,
-          'notes' => 'Initial consultation',
-          'status' => 'Pending'
-        },
-        {
-          'id' => 'apt_002',
-          'client' => {
-            'id' => 'ext_007',
-            'name' => 'Grace Lee',
-            'email' => 'grace.lee@example.com',
-            'phone' => '555-0112'
-          },
-          'scheduled_at' => 2.days.from_now.iso8601,
-          'notes' => 'Follow-up session',
-          'status' => 'Confirmed'
-        },
-        {
-          'id' => 'apt_003',
-          'client' => {
-            'id' => 'ext_008',
-            'name' => 'Henry Taylor',
-            'email' => 'henry.taylor@example.com',
-            'phone' => '555-0113'
-          },
-          'scheduled_at' => 3.days.from_now.iso8601,
-          'notes' => 'Regular checkup',
-          'status' => 'Pending'
-        }
-      ]
-    end
+
   end
 end
