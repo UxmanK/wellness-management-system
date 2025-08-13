@@ -34,21 +34,30 @@ class Api::V1::AppointmentsController < ApplicationController
     # Log the incoming parameters for debugging
     Rails.logger.info "Updating appointment #{params[:id]} with params: #{appointment_params}"
     
-    appt.update!(
+    if appt.update(
+      client_id: appointment_params[:client_id],
       time: appointment_params[:time],
       notes: appointment_params[:notes],
       status: appointment_params[:status],
       sync_status: 'pending',
       last_synced_at: Time.current
     )
-    
-    # Reload the appointment to get the latest data
-    appt.reload
-    
-    # Log the updated appointment for debugging
-    Rails.logger.info "Updated appointment: #{appt.attributes}"
-    
-    render json: appt, serializer: AppointmentSerializer
+      # Reload the appointment to get the latest data
+      appt.reload
+      
+      # Log the updated appointment for debugging
+      Rails.logger.info "Updated appointment: #{appt.attributes}"
+      
+      render json: appt, serializer: AppointmentSerializer
+    else
+      # Log validation errors for debugging
+      Rails.logger.error "Failed to update appointment: #{appt.errors.full_messages}"
+      
+      render json: { 
+        error: 'Validation failed', 
+        details: appt.errors.full_messages 
+      }, status: :unprocessable_entity
+    end
   end
 
   def destroy
