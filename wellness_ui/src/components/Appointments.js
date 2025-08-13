@@ -1,20 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  Search,
-  Plus,
-  Edit,
-  Calendar,
-  Clock,
-  User,
-  Filter,
-} from "lucide-react";
+import { Search, Plus, Edit, Calendar } from "lucide-react";
 import { format } from "date-fns";
 import API_CONFIG from "../config/api";
 
 const Appointments = () => {
   const [appointments, setAppointments] = useState([]);
-  const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
@@ -44,7 +35,6 @@ const Appointments = () => {
       });
 
       setAppointments(appointmentsWithClientNames);
-      setClients(clientsData);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {

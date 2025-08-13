@@ -1,16 +1,8 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Calendar, Users, Home, Plus } from "lucide-react";
+import { Calendar, Users, Home } from "lucide-react";
 
 const Navbar = () => {
-  const location = useLocation();
-
-  const isActive = (path) => {
-    if (path === "/" && location.pathname === "/") return true;
-    if (path !== "/" && location.pathname.startsWith(path)) return true;
-    return false;
-  };
-
   return (
     <nav className="bg-white shadow-sm border-b border-gray-200">
       <div className="container mx-auto px-4">

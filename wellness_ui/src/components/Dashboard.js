@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Users, Calendar, Clock, TrendingUp, Plus } from "lucide-react";
+import { Users, Calendar, Clock, Plus } from "lucide-react";
 import { format } from "date-fns";
 import API_CONFIG from "../config/api";
 

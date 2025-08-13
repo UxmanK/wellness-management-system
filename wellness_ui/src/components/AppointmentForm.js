@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Save, Calendar, User } from "lucide-react";
 import API_CONFIG from "../config/api";
@@ -21,24 +21,7 @@ const AppointmentForm = () => {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
-    fetchClients();
-    if (isEditing) {
-      fetchAppointment();
-    }
-  }, [id]);
-
-  const fetchClients = async () => {
-    try {
-      const response = await fetch(API_CONFIG.getClientsUrl());
-      const data = await response.json();
-      setClients(data);
-    } catch (error) {
-      console.error("Error fetching clients:", error);
-    }
-  };
-
-  const fetchAppointment = async () => {
+  const fetchAppointment = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch(API_CONFIG.getAppointmentUrl(id));
@@ -91,6 +74,23 @@ const AppointmentForm = () => {
       alert(`Error fetching appointment: ${error.message}`);
     } finally {
       setLoading(false);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    fetchClients();
+    if (isEditing) {
+      fetchAppointment();
+    }
+  }, [id, isEditing, fetchAppointment]);
+
+  const fetchClients = async () => {
+    try {
+      const response = await fetch(API_CONFIG.getClientsUrl());
+      const data = await response.json();
+      setClients(data);
+    } catch (error) {
+      console.error("Error fetching clients:", error);
     }
   };
 

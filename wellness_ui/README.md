@@ -48,7 +48,6 @@ src/
 ├── components/          # React components
 │   ├── Dashboard.js    # Main dashboard view
 │   ├── Clients.js      # Client list and management
-│   ├── ClientForm.js   # Add/edit client form
 │   ├── Appointments.js # Appointment list and management
 │   ├── AppointmentForm.js # Add/edit appointment form
 │   └── Navbar.js       # Navigation component

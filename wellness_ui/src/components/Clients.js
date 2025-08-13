@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { Search, User, Mail, Phone } from "lucide-react";
 import API_CONFIG from "../config/api";
 

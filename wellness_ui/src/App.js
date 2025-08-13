@@ -4,7 +4,6 @@ import Navbar from "./components/Navbar";
 import Dashboard from "./components/Dashboard";
 import Clients from "./components/Clients";
 import Appointments from "./components/Appointments";
-import ClientForm from "./components/ClientForm";
 import AppointmentForm from "./components/AppointmentForm";
 
 function App() {
