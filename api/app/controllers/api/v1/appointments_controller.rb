@@ -53,9 +53,20 @@ class Api::V1::AppointmentsController < ApplicationController
       # Log validation errors for debugging
       Rails.logger.error "Failed to update appointment: #{appt.errors.full_messages}"
       
+      # Check for specific validation errors and provide custom messages
+      error_details = appt.errors.full_messages
+      if appt.errors[:time].any? && appt.past?
+        error_details << "Past appointments cannot be edited due to time constraints"
+      end
+      if appt.errors[:status].any? && appt.status == 'Cancelled' && appt.past?
+        error_details << "Cannot change status from 'Completed' to 'Cancelled' for past appointments"
+      end
+      
       render json: { 
         error: 'Validation failed', 
-        details: appt.errors.full_messages 
+        details: error_details,
+        time_constraint: appt.past?,
+        status_constraint: appt.status == 'Cancelled' && appt.past?
       }, status: :unprocessable_entity
     end
   end

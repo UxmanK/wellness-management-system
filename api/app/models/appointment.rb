@@ -2,9 +2,11 @@ class Appointment < ApplicationRecord
   belongs_to :client
   
   # Validations
-  validates :status, inclusion: { in: %w[Pending Confirmed Cancelled] }, allow_nil: true
+  validates :status, inclusion: { in: %w[Pending Confirmed Cancelled Completed] }, allow_nil: true
   validates :time, presence: true
   validates :sync_status, inclusion: { in: %w[pending syncing synced error] }, allow_nil: true
+  validate :cannot_cancel_past_appointments_unless_completed
+  validate :cannot_edit_past_appointments
   
   # Scopes
   scope :synced, -> { where(sync_status: 'synced') }
@@ -70,5 +72,17 @@ class Appointment < ApplicationRecord
   
   def set_default_sync_status
     self.sync_status ||= 'pending'
+  end
+  
+  def cannot_cancel_past_appointments_unless_completed
+    if status_changed? && status == 'Cancelled' && past? && status_was == 'Completed'
+      errors.add(:status, "cannot change status from 'Completed' to 'Cancelled' for past appointments")
+    end
+  end
+  
+  def cannot_edit_past_appointments
+    if time_changed? && past? && !new_record?
+      errors.add(:time, "cannot be changed for past appointments")
+    end
   end
 end
