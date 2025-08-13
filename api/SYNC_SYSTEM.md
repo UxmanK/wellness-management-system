@@ -121,8 +121,8 @@ POST /api/v1/sync/force        # Force immediate sync
 
 ```bash
 # External API Configuration
-EXTERNAL_API_BASE_URL=https://api.example.com
-EXTERNAL_API_KEY=your_api_key_here
+MOCK_API_URL=https://api.example.com
+MOCK_API_KEY=your_api_key_here
 EXTERNAL_API_TIMEOUT=30
 EXTERNAL_API_RETRY_ATTEMPTS=3
 

@@ -102,8 +102,8 @@ DATABASE_URL=postgresql://user:pass@localhost/wellness_dev
 REDIS_URL=redis://localhost:6379
 
 # External API
-EXTERNAL_API_BASE_URL=https://api.wellness-platform.com
-EXTERNAL_API_KEY=your_api_key_here
+MOCK_API_URL=https://api.wellness-platform.com
+MOCK_API_KEY=your_api_key_here
 ```
 
 ### Sidekiq Settings

@@ -6,8 +6,8 @@ module ExternalApi
     
     # Configure default values
     configure do |config|
-      config.base_url = ENV['EXTERNAL_API_BASE_URL']
-      config.api_key = ENV['EXTERNAL_API_KEY'] || 'demo_key'
+      config.base_url = ENV['MOCK_API_URL']
+      config.api_key = ENV['MOCK_API_KEY'] || 'demo_key'
       config.timeout = ENV['EXTERNAL_API_TIMEOUT']&.to_i || 30
       config.retry_attempts = ENV['EXTERNAL_API_RETRY_ATTEMPTS']&.to_i || 3
     end
