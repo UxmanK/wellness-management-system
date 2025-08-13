@@ -3,6 +3,11 @@ class Api::V1::AppointmentsController < ApplicationController
     render json: Appointment.includes(:client).all, each_serializer: AppointmentSerializer
   end
 
+  def show
+    appointment = Appointment.find(params[:id])
+    render json: appointment, serializer: AppointmentSerializer
+  end
+
   def create
     # Log the incoming parameters for debugging
     Rails.logger.info "Creating appointment with params: #{appointment_params}"

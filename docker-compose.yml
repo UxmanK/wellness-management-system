@@ -50,7 +50,9 @@ services:
       "
 
   frontend:
-    build: ./wellness_ui
+    build: 
+      context: ./wellness_ui
+      dockerfile: Dockerfile.dev
     ports:
       - "3001:3000"
     depends_on:
@@ -58,6 +60,9 @@ services:
     volumes:
       - ./wellness_ui:/app
       - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
 
 volumes:
   postgres_data:
